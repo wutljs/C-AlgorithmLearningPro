@@ -5,7 +5,11 @@
       <FullPath>E:\study_and_work\自主学习\c\projects\C-AlgorithmLearningPro\x64\Debug\C-AlgorithmLearningPro.exe</FullPath>
     </ProjectOutput>
   </ProjectOutputs>
-  <ContentFiles />
+  <ContentFiles>
+    <ContentFile>
+      <FullPath>E:\study_and_work\自主学习\c\projects\C-AlgorithmLearningPro\DlinkedList.c</FullPath>
+    </ContentFile>
+  </ContentFiles>
   <SatelliteDlls />
   <NonRecipeFileRefs />
 </Project>
