@@ -21,7 +21,7 @@
     <ClCompile Include="linkedList.c">
       <Filter>源文件</Filter>
     </ClCompile>
-    <ClCompile Include="DlinkedList.c">
+    <ClCompile Include="dLinkedList.c">
       <Filter>源文件</Filter>
     </ClCompile>
   </ItemGroup>

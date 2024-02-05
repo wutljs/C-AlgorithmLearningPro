@@ -168,10 +168,54 @@ bool ListDelete(DLinkNode* L, int n, ElemType* e) {
 }
 
 
+bool InverseList(DLinkNode* L) {
+	if (L->next == NULL) {
+		return false;
+	}
+	DLinkNode* p = L->next, * q;
+	L->next = NULL;
+	while (p != NULL) {
+		q = p;
+		p = p->next;
+		q->next = L->next;
+		if (L->next != NULL) {
+			L->next->prior = q;
+		}
+		q->prior = L;
+		L->next = q;
+	}
+	return true;
+}
+
+
+bool SortList(DLinkNode* L) {
+	if (L->next == NULL || L->next->next == NULL) {
+		return false;
+	}
+	DLinkNode* p = L->next->next, * pre, * q;
+	L->next->next = NULL;
+	while (p != NULL) {
+		q = p->next;
+		pre = L;
+		while (pre->next != NULL && pre->next->data < p->data) {
+			pre = pre->next;
+		}
+		p->next = pre->next;
+		if (pre->next != NULL) {
+			pre->next->prior = p;
+		}
+		p->prior = pre;
+		pre->next = p;
+		p = q;
+	}
+	return true;
+}
+
+
 int main() {
 	DLinkNode* L = InitList();
 
-	ElemType a[] = { 1, 2, 3, 4, 5, 6 };
+	ElemType a[] = { 8, 9, 6, 8, 7, 5, 6, 4 };
 	int n = 6;
 	CreateList(L, a, n);
 	DispList(L);
@@ -219,6 +263,17 @@ int main() {
 	}
 	else {
 		printf("\nIndexError!\n");
+	}
+
+	if (InverseList(L)) {
+		DispList(L);
+	}
+	else {
+		printf("\nEmpty.\n");
+	}
+
+	if (SortList(L)) {
+		DispList(L);
 	}
 
 	DestroyList(L);
