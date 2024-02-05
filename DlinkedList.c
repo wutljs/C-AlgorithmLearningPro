@@ -68,6 +68,22 @@ bool ListEmpty(DLinkNode* L) {
 }
 
 
+void DispList(DLinkNode* L) {
+	if (L->next == NULL) {
+		printf("\n");
+	}
+	else {
+		printf("\n>>> ");
+		DLinkNode* p = L->next;
+		while (p != NULL) {
+			printf("%d ", p->data);
+			p = p->next;
+		}
+		printf("\n");
+	}
+}
+
+
 bool GetElem(DLinkNode* L, int n, ElemType* e) {
 	if (n < 1) {
 		return false;
@@ -100,19 +116,55 @@ int LocateElem(DLinkNode* L, ElemType e) {
 }
 
 
-void DispList(DLinkNode* L) {
-	if (L->next == NULL) {
-		printf("\n");
+bool ListInsert(DLinkNode* L, int n, ElemType e) {
+	if (n < 1) {
+		return false;
 	}
-	else {
-		printf("\n>>> ");
-		DLinkNode* p = L->next;
-		while (p != NULL) {
-			printf("%d ", p->data);
-			p = p->next;
+	DLinkNode* p = L, * s;
+	int i = 0;
+	while (i < n - 1 && p != NULL) {
+		i++;
+		p = p->next;
+	}
+	if (p == NULL) {
+		return false;
+	}
+	s = (DLinkNode*)malloc(sizeof(DLinkNode));
+	if (s != NULL) {
+		s->data = e;
+		s->next = p->next;
+		if (p->next != NULL) {
+			p->next->prior = s;
 		}
-		printf("\n");
+		s->prior = p;
+		p->next = s;
+		return true;
 	}
+	return false;
+}
+
+
+bool ListDelete(DLinkNode* L, int n, ElemType* e) {
+	if (n < 1) {
+		return false;
+	}
+	DLinkNode* p = L, * q;
+	int i = 0;
+	while (i < n - 1 && p != NULL) {
+		i++;
+		p = p->next;
+	}
+	if (p == NULL || p->next == NULL) {
+		return false;
+	}
+	q = p->next;
+	*e = q->data;
+	p->next = q->next;
+	if (q->next != NULL) {
+		q->next->prior = p;
+	}
+	free(q);
+	return true;
 }
 
 
@@ -124,7 +176,7 @@ int main() {
 	CreateList(L, a, n);
 	DispList(L);
 
-	/*int listLength = ListLength(L);
+	int listLength = ListLength(L);
 	printf("\nThe length of the double linked list is %d.\n", listLength);
 
 	n = 2;
@@ -150,7 +202,24 @@ int main() {
 	}
 	else {
 		printf("\nNot empty.\n");
-	}*/
+	}
+
+	n = 6, e = 7;
+	if (ListInsert(L, n, e)) {
+		DispList(L);
+	}
+	else {
+		printf("\nIndexError!\n");
+	}
+
+	n = 1;
+	if (ListDelete(L, n, &e)) {
+		printf("\nThe element which was deleted is %d.\n", e);
+		DispList(L);
+	}
+	else {
+		printf("\nIndexError!\n");
+	}
 
 	DestroyList(L);
 
