@@ -266,6 +266,7 @@ int main() {
 	}
 
 	if (InverseList(L)) {
+		printf("\nInverse the double linked list:");
 		DispList(L);
 	}
 	else {
@@ -273,6 +274,7 @@ int main() {
 	}
 
 	if (SortList(L)) {
+		printf("\nSort the double linked list:");
 		DispList(L);
 	}
 
