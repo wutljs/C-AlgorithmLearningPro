@@ -50,9 +50,6 @@ void DestroyList(DLinkNode* L) {
 
 
 int ListLength(DLinkNode* L) {
-	if (L->next == NULL) {
-		return 0;
-	}
 	DLinkNode* p = L->next;
 	int i = 0;
 	while (p != NULL) {

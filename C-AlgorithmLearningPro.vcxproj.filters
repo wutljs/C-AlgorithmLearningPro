@@ -24,5 +24,11 @@
     <ClCompile Include="dLinkedList.c">
       <Filter>源文件</Filter>
     </ClCompile>
+    <ClCompile Include="exercise.c">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="cLinkedList.c">
+      <Filter>源文件</Filter>
+    </ClCompile>
   </ItemGroup>
 </Project>
