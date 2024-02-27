@@ -30,5 +30,8 @@
     <ClCompile Include="cLinkedList.c">
       <Filter>源文件</Filter>
     </ClCompile>
+    <ClCompile Include="cDLinkedList.c">
+      <Filter>源文件</Filter>
+    </ClCompile>
   </ItemGroup>
 </Project>
