@@ -166,10 +166,54 @@ bool ListDelete(CDLinkNode* L, int n, ElemType* e) {
 }
 
 
+int FindDataNodeNum(CDLinkNode* L, ElemType value) {
+	CDLinkNode* p = L->next;
+	int i = 0;
+	while (p != L) {
+		if (p->data == value) {
+			i++;
+		}
+		p = p->next;
+	}
+	return i;
+}
+
+
+bool DeleteSpecialNode(CDLinkNode* L, ElemType value) {
+	CDLinkNode* p = L->next;
+	while (p != L && p->data != value) {
+		p = p->next;
+	}
+	if (p == L) {
+		return false;
+	}
+	p->prior->next = p->next;
+	p->next->prior = p->prior;
+	free(p);
+	return true;
+}
+
+
+bool ListIsSymmetric(CDLinkNode* L) {
+	if (L->next == L || L->next->next == L) {  // The cDLinkedList with no (or only one) element cannot be considered symmetric.
+		return false;
+	}
+	CDLinkNode* p = L->next, * q = L->prior;
+	while ((q->next != p) && p != q) {
+		if (p->data != q->data) {
+			return false;
+		}
+		p = p->next;
+		q = q->prior;
+	}
+	return true;
+}
+
+
 int main() {
 	CDLinkNode* L = InitList();
 
-	ElemType a[] = { 1, 2, 3, 4, 5 };
+	ElemType a[] = { 6, 7, 8, 7, 6 };
 	int n = 5;
 	CreateList(L, a, n);
 
@@ -220,6 +264,26 @@ int main() {
 	}
 	else {
 		printf("\nIndexError!\n");
+	}
+
+	ElemType value = 7;
+	n = FindDataNodeNum(L, value);
+	printf("\nThe number of %d(Elem) is %d.\n", value, n);
+
+	value = 8;
+	if (DeleteSpecialNode(L, value)) {
+		printf("\nThe node which is %d was deleted.\n", value);
+		DispList(L);
+	}
+	else {
+		printf("\nNo such element!\n");
+	}
+
+	if (ListIsSymmetric(L)) {
+		printf("\nThe cDLinkedList is symmetric.\n");
+	}
+	else {
+		printf("\nThe cDLinkedList is not symmetric.\n");
 	}
 
 	DestroyList(L);
