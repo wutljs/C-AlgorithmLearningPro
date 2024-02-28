@@ -114,26 +114,22 @@ bool ListInsert(CDLinkNode* L, int n, ElemType e) {
 	if (n < 1) {
 		return false;
 	}
-	int i = 0;
-	bool t = false;
-	CDLinkNode* p = L, * s;
-	while (i < n - 1 && (p != L || !t)) {
-		if (i == 0) {
-			t = true;
-		}
+	CDLinkNode* p = L->next, * s;
+	int i = 1;
+	while (i < n && p != L) {
 		i++;
 		p = p->next;
 	}
-	if (p == L && t) {
+	if (i != n) {
 		return false;
 	}
 	s = (CDLinkNode*)malloc(sizeof(CDLinkNode));
 	if (s != NULL) {
 		s->data = e;
-		s->next = p->next;
-		p->next->prior = s;
-		s->prior = p;
-		p->next = s;
+		s->next = p;
+		s->prior = p->prior;
+		p->prior->next = s;
+		p->prior = s;
 		return true;
 	}
 	return false;
@@ -144,24 +140,19 @@ bool ListDelete(CDLinkNode* L, int n, ElemType* e) {
 	if (n < 1) {
 		return false;
 	}
-	int i = 0;
-	bool t = false;
-	CDLinkNode* p = L, * q;
-	while (i < n - 1 && (p != L || !t)) {
-		if (i == 0) {
-			t = true;
-		}
+	CDLinkNode* p = L->next;
+	int i = 1;
+	while (i < n && p != L) {
 		i++;
 		p = p->next;
 	}
-	if ((p == L && t) || (p->next == L)) {
+	if (p == L) {
 		return false;
 	}
-	q = p->next;
-	*e = q->data;
-	p->next = q->next;
-	q->next->prior = p;
-	free(q);
+	*e = p->data;
+	p->prior->next = p->next;
+	p->next->prior = p->prior;
+	free(p);
 	return true;
 }
 
@@ -260,7 +251,7 @@ int main() {
 	n = 2;  // "n" is the index of the number which was deleted, "e" is the number which was deleted.
 	if (ListDelete(L, n, &e)) {
 		printf("\nDelete %d successfully!\n", e);
-		DispList(L);
+		DispList(L); 
 	}
 	else {
 		printf("\nIndexError!\n");
