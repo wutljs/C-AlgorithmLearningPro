@@ -59,7 +59,7 @@ void DispList(LinkNode* L) {
 }
 
 
-LinkNode* TwoWayMerge(LinkNode* A, LinkNode* B, LinkNode* L) {  // Assuming that both ordered lists are in ascending order.
+void TwoWayMerge(LinkNode* A, LinkNode* B, LinkNode* L) {  // Assuming that both ordered lists are in ascending order.
 	LinkNode* p1 = A->next;
 	LinkNode* p2 = B->next;
 	LinkNode* p3 = L;
@@ -99,8 +99,6 @@ LinkNode* TwoWayMerge(LinkNode* A, LinkNode* B, LinkNode* L) {  // Assuming that
 	}
 
 	p3->next = NULL;
-
-	return L;
 }
 
 
