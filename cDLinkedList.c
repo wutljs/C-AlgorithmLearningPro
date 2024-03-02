@@ -116,7 +116,7 @@ bool ListInsert(CDLinkNode* L, int n, ElemType e) {
 	}
 	CDLinkNode* p = L->next, * s;
 	int i = 1;
-	while (i < n && p != L) {
+	while (i < n && p != L) {  //breaking the conditions of the cycle : i == n || p == L
 		i++;
 		p = p->next;
 	}
