@@ -99,6 +99,8 @@ void TwoWayMerge(LinkNode* A, LinkNode* B, LinkNode* L) {  // Assuming that both
 	}
 
 	p3->next = NULL;
+
+	p1 = p2 = p3 = s = p = NULL;
 }
 
 
