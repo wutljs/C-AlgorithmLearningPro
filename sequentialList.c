@@ -139,54 +139,6 @@ bool ListDelete(SqList* L, int index, ElemType* e)
 
 int main()
 {
-	SqList* L = InitList();
-
-	ElemType a[] = { 'a', 'b', 'c', 'd', 'e' };
-	CreateList(L, a, 5);
-
-	DispList(L);
-
-	ListLength(L);
-
-	if (ListEmpty(L)) {
-		printf("\nEmpty.\n");
-
-	}
-	else {
-		printf("\nNot empty.\n");
-
-	}
-
-	ElemType e;
-	if (GetElem(L, 3, &e)) {
-		printf("\nThe 3rd element is %c.\n", e);
-
-	}
-	else {
-		printf("IndexError!");
-
-	}
-
-	int location = LocateElem(L, 'a');
-	if (location == 0) {
-		printf("\nThe element is not existed.\n");
-
-	}
-	else {
-		printf("\nThe location of 'a' is %d.\n", location);
-
-	}
-
-	printf("\nAdd 'f'\n");
-	ListInsert(L, 4, 'f');
-	DispList(L);
-
-	printf("\nDelete the 3rd element\n");
-	ListDelete(L, 3, &e);
-	DispList(L);
-
-	printf("\nDestroy the SqList\n");
-	DestroyList(L);
 
 	return 0;
 }

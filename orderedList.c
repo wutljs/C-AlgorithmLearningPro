@@ -105,25 +105,6 @@ void TwoWayMerge(LinkNode* A, LinkNode* B, LinkNode* L) {  // Assuming that both
 
 
 int main() {
-	LinkNode* A = InitList();
-	ElemType a[] = { 2, 3, 4, 5, 5, 6, 11 };
-	int n = 7;
-	CreateList(A, a, n);
-	printf("OrderedListA:");
-	DispList(A);
-	printf("\n");
-
-	LinkNode* B = InitList();
-	n = 9;
-	ElemType b[] = { 1, 2, 4, 5, 6, 7, 8, 9, 10 };
-	CreateList(B, b, n);
-	printf("OrderedListB:");
-	DispList(B);
-
-	LinkNode* L = InitList();
-	TwoWayMerge(A, B, L);
-	printf("OrderedListL:");
-	DispList(L);
 
 	return 0;
 }

@@ -227,65 +227,6 @@ bool ListSort(LinkNode* L) {
 
 
 int main() {
-	LinkNode* L = InitList();
-
-	ElemType a[] = { 'a', 'b', 'c', 'd', 'e' };
-	CreateList(L, a, 5);
-
-	DispList(L);
-
-	int listLength = ListLength(L);
-	printf("\nThe length of the linked list is %d.\n", listLength);
-
-	if (ListEmpty(L)) {
-		printf("\nEmpty.\n");
-	}
-	else {
-		printf("\nNot Empty.\n");
-	}
-
-	int n = 3;
-	ElemType e;
-	if (GetElem(L, n, &e)) {
-		printf("\nThe %d element is %c.\n", n, e);
-	}
-	else {
-		printf("\nIndexError!\n");
-	}
-
-	e = 'd';
-	int location = LocateElem(L, e);
-	if (location == 0) {
-		printf("\nNot found.\n");
-	}
-	else {
-		printf("\nThe location of Elem %c is %d.\n", e, location);
-	}
-
-	if (ListInsert(L, 4, 'f')) {
-		printf("\n");
-		DispList(L);
-	}
-	else {
-		printf("\nInsertError!\n");
-	}
-
-	if (ListDelete(L, 3, &e)) {
-		printf("\nDelete %c\n", e);
-		DispList(L);
-	}
-	else {
-		printf("\nDeleteError!\n");
-	}
-
-	LinkNode* A = InitList();
-	LinkNode* B = InitList();
-	PartListByParity(L, A, B);
-	printf("\n");
-	DispList(A);
-	DispList(B);
-
-	DestroyList(L);
 
 	return 0;
 }

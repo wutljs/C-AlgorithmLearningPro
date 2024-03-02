@@ -157,62 +157,6 @@ bool ListDelete(CLinkNode* L, int n, ElemType* e) {
 
 
 int main() {
-	CLinkNode* L = InitList();
-
-	ElemType a[] = { 'a', 'b', 'c', 'd', 'e' };
-	int n = 5;
-	CreateList(L, a, n);
-
-	DispList(L);
-
-	if (ListEmpty(L)) {
-		printf("\nEmpty.\n");
-	}
-	else {
-		printf("\nNot empty.\n");
-	}
-
-	int cListLength = ListLength(L);
-	printf("\nListLength : %d\n", cListLength);
-
-	ElemType e;
-	n = 3;
-	if (GetElem(L, n, &e)) {
-		printf("\nGetElem(%d) : %c\n", n, e);
-	}
-	else {
-		printf("\nIndexError!\n");
-	}
-
-	e = 'a';
-	int locateResult = LocateElem(L, e);
-	if (locateResult == 0) {
-		printf("\nNo such Elem\n");
-	}
-	else {
-		printf("\nLocateElem(%c) : %d\n", e, locateResult);
-	}
-
-	n = 3;
-	e = 'x';
-	if (ListInsert(L, n, e)) {
-		printf("\nListInsert(%d) >>> \n", n);
-		DispList(L);
-	}
-	else {
-		printf("\nIndexError!\n");
-	}
-
-	n = 1;
-	if (ListDelete(L, n, &e)) {
-		printf("\nListDelete(%d) : %c >>> \n", n, e);
-		DispList(L);
-	}
-	else {
-		printf("\nIndexError!\n");
-	}
-
-	DestroyList(L);
 
 	return 0;
 }
