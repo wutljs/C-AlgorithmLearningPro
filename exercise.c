@@ -14,7 +14,7 @@ typedef struct LNode {
 LinkNode* InitList() {
 	LinkNode* L = (LinkNode*)malloc(sizeof(LinkNode));
 	if (L != NULL) {
-		L->next;
+		L->next = NULL;
 	}
 	return L;
 }
@@ -56,38 +56,71 @@ void DispList(LinkNode* L) {
 }
 
 
-void PartListByX(LinkNode* L, int x) {
-	LinkNode* pre = L->next, * p = pre->next, * q;
-	pre->next = NULL;
-	while (p != NULL) {
-		q = p->next;
-		if (p->data < x) {
-			p->next = L->next;
-			L->next = p;
+void CombineList(LinkNode* L1, LinkNode* L2, LinkNode* L3) {
+	LinkNode* p1 = L1->next, * p2 = L2->next, * p3 = L3, * s;
+	bool getElemFromL1 = true;
+
+	while (p1 != NULL && p2 != NULL) {
+		s = (LinkNode*)malloc(sizeof(LinkNode));
+		if (s != NULL) {
+			if (getElemFromL1) {
+				s->data = p1->data;
+				p3->next = s;
+				p3 = s;
+
+				p1 = p1->next;
+				getElemFromL1 = false;
+			}
+			else {
+				s->data = p2->data;
+				p3->next = s;
+				p3 = s;
+
+				p2 = p2->next;
+				getElemFromL1 = true;
+			}
 		}
-		else {
-			p->next = pre->next;
-			pre->next = p;
-		}
-		p = q;
 	}
+
+	LinkNode* p;
+	if (p1 == NULL) {
+		p = p2;
+	}
+	else
+		p = p1;
+
+	while (p != NULL) {
+		s = (LinkNode*)malloc(sizeof(LinkNode));
+		if (s != NULL) {
+			s->data = p->data;
+			p3->next = s;
+			p3 = s;
+
+			p = p->next;
+		}
+	}
+
+	p3->next = NULL;
 }
 
 
 int main() {
 
-	LinkNode* L = InitList();
-	ElemType a[] = { 1, 4, 5, 8, 6, 7, 3, 1, 2, 9 };
-	int n = 10;
-	CreateList(L, a, n);
-	DispList(L);
+	LinkNode* L1 = InitList();
+	ElemType a[] = { 1, 2, 3 };
+	int n = 3;
+	CreateList(L1, a, n);
+	DispList(L1);
 
-	int x = 6;
-	PartListByX(L, x);
-	printf("\nPart LinkedList by %d.\n", x);
-	DispList(L);
+	LinkNode* L2 = InitList();
+	ElemType b[] = { 2, 3, 5 };
+	n = 3;
+	CreateList(L2, b, n);
+	DispList(L2);
 
-	DestroyList(L);
+	LinkNode* L3 = InitList();
+	CombineList(L1, L2, L3);
+	DispList(L3);
 
 	return 0;
 }
