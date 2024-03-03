@@ -59,7 +59,8 @@ void DispList(LinkNode* L) {
 }
 
 
-void TwoWayMerge(LinkNode* A, LinkNode* B, LinkNode* L) {  // Assuming that both ordered lists are in ascending order.
+void TwoWayMerge(LinkNode* A, LinkNode* B, LinkNode* L) {
+	// Assuming that both ordered lists are in ascending order.Do not destroy the original linked list.
 	LinkNode* p1 = A->next;
 	LinkNode* p2 = B->next;
 	LinkNode* p3 = L;
@@ -88,6 +89,16 @@ void TwoWayMerge(LinkNode* A, LinkNode* B, LinkNode* L) {  // Assuming that both
 	else
 		p = p1;
 
+	/*
+	We do not directly use "p3->next=p" here
+	because this operation is equivalent to
+	embedding the new linked list and the original
+	linked list together. This will create a problem,
+	which is that when the operator changes the new
+	linked list, they will modify the original linked
+	list, which is not very appropriate.
+	*/
+
 	while (p != NULL) {
 		s = (LinkNode*)malloc(sizeof(LinkNode));
 		if (s != NULL) {
@@ -100,7 +111,7 @@ void TwoWayMerge(LinkNode* A, LinkNode* B, LinkNode* L) {  // Assuming that both
 
 	p3->next = NULL;
 
-	p1 = p2 = p3 = s = p = NULL;
+	p1 = p2 = p3 = s = p = NULL;  // Prevent memory leaks
 }
 
 
