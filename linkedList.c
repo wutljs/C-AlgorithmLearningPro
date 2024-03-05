@@ -4,7 +4,7 @@
 #include <stdlib.h>
 #include <stdbool.h>
 
-typedef char ElemType;
+typedef int ElemType;
 typedef struct LNode {
 	ElemType data;
 	struct LNode* next;
@@ -41,9 +41,9 @@ void CreateList(LinkNode* L, ElemType a[], int n) {  // tail insertion method
 
 void DispList(LinkNode* L) {
 	LinkNode* p = L->next;
-	printf(">>> ");
+	printf("(DispList) ");
 	while (p != NULL) {
-		printf("%c ", p->data);
+		printf("%d ", p->data);
 		p = p->next;
 	}
 	printf("\n");
@@ -226,7 +226,94 @@ bool ListSort(LinkNode* L) {
 }
 
 
+void ListUnion(LinkNode* L1, LinkNode* L2, LinkNode* L3) {  // Get the union of two sets (stored in ascending order using a linked list)
+	LinkNode* p1 = L1->next, * p2 = L2->next, * p3 = L3, * s;
+	while (p1 != NULL && p2 != NULL) {
+		s = (LinkNode*)malloc(sizeof(LinkNode));
+		if (s != NULL) {
+			if (p1->data < p2->data) {
+				s->data = p1->data;
+				p1 = p1->next;
+			}
+			else if (p1->data > p2->data) {
+				s->data = p2->data;
+				p2 = p2->next;
+			}
+			else {
+				p1 = p1->next;  // or "p2 = p2->next"
+				continue;
+			}
+			p3->next = s;
+			p3 = s;
+		}
+	}
+
+	LinkNode* p;
+	if (p1 == NULL)
+		p = p2;
+	else
+		p = p1;
+
+	while (p != NULL) {
+		s = (LinkNode*)malloc(sizeof(LinkNode));
+		if (s != NULL) {
+			s->data = p->data;
+			p3->next = s;
+			p3 = s;
+			p = p->next;
+		}
+	}
+
+	p3->next = NULL;
+
+}
+
+
+void ListIntersection(LinkNode* L1, LinkNode* L2, LinkNode* L3) {
+	LinkNode* p1 = L1->next, * p2 = L2->next, * p3 = L3, * s;
+	bool p2InitIsChanged = false;
+
+	while (p1 != NULL) {
+		while (p2 != NULL && p1->data != p2->data) {
+			p2 = p2->next;
+			if (p2 != NULL && p2->data > p1->data)
+				break;
+		}
+		if (p2 != NULL) {
+			if (p1->data == p2->data) {
+				s = (LinkNode*)malloc(sizeof(LinkNode));
+				if (s != NULL) {
+					s->data = p1->data;
+					p3->next = s;
+					p3 = s;
+					p2InitIsChanged = true;
+				}
+			}
+		}
+		if (!p2InitIsChanged)
+			p2 = L2->next;
+		p1 = p1->next;
+	}
+
+	p3->next = NULL;
+}
+
+
 int main() {
+	LinkNode* L1 = InitList();
+	ElemType a[] = { 1, 2, 3, 4, 5, 11 };
+	int n = 6;
+	CreateList(L1, a, n);
+
+	LinkNode* L2 = InitList();
+	ElemType b[] = { 3, 4, 5, 6, 7, 8, 11 };
+	n = 7;
+	CreateList(L2, b, n);
+
+	LinkNode* L3 = InitList();
+	ListIntersection(L1, L2, L3);
+
+	DispList(L3);
 
 	return 0;
 }
