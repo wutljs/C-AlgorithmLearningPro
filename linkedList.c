@@ -226,7 +226,7 @@ bool ListSort(LinkNode* L) {
 }
 
 
-void ListUnion(LinkNode* L1, LinkNode* L2, LinkNode* L3) {  // Get the union of two sets (stored in ascending order using a linked list)
+void ListsUnionSet(LinkNode* L1, LinkNode* L2, LinkNode* L3) {  // Get the union of two sets (stored in ascending order using a linked list)
 	LinkNode* p1 = L1->next, * p2 = L2->next, * p3 = L3, * s;
 	while (p1 != NULL && p2 != NULL) {
 		s = (LinkNode*)malloc(sizeof(LinkNode));
@@ -269,9 +269,8 @@ void ListUnion(LinkNode* L1, LinkNode* L2, LinkNode* L3) {  // Get the union of 
 }
 
 
-void ListIntersection(LinkNode* L1, LinkNode* L2, LinkNode* L3) {
-	LinkNode* p1 = L1->next, * p2 = L2->next, * p3 = L3, * s;
-	bool p2InitIsChanged = false;
+void ListsIntersectedSet(LinkNode* L1, LinkNode* L2, LinkNode* L3) {
+	LinkNode* p1 = L1->next, * p2 = L2->next, * p3 = L3, * s, * q = L2->next;
 
 	while (p1 != NULL) {
 		while (p2 != NULL && p1->data != p2->data) {
@@ -286,12 +285,11 @@ void ListIntersection(LinkNode* L1, LinkNode* L2, LinkNode* L3) {
 					s->data = p1->data;
 					p3->next = s;
 					p3 = s;
-					p2InitIsChanged = true;
+					q = p2->next;
 				}
 			}
 		}
-		if (!p2InitIsChanged)
-			p2 = L2->next;
+		p2 = q;
 		p1 = p1->next;
 	}
 
@@ -299,19 +297,24 @@ void ListIntersection(LinkNode* L1, LinkNode* L2, LinkNode* L3) {
 }
 
 
+void ListsDifferentSet(LinkNode* L1, LinkNode* L2, LinkNode* L3) {
+
+}
+
+
 int main() {
 	LinkNode* L1 = InitList();
-	ElemType a[] = { 1, 2, 3, 4, 5, 11 };
+	ElemType a[] = { 1, 2, 3, 4, 5, 8 };
 	int n = 6;
 	CreateList(L1, a, n);
 
 	LinkNode* L2 = InitList();
-	ElemType b[] = { 3, 4, 5, 6, 7, 8, 11 };
-	n = 7;
+	ElemType b[] = { 1, 3, 4, 7, 8, 9 };
+	n = 6;
 	CreateList(L2, b, n);
 
 	LinkNode* L3 = InitList();
-	ListIntersection(L1, L2, L3);
+	ListIntersectedSet(L1, L2, L3);
 
 	DispList(L3);
 
