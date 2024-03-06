@@ -269,7 +269,7 @@ void ListsUnionSet(LinkNode* L1, LinkNode* L2, LinkNode* L3) {  // Get the union
 }
 
 
-void ListsIntersectedSet(LinkNode* L1, LinkNode* L2, LinkNode* L3) {
+void ListsIntersectedSet(LinkNode* L1, LinkNode* L2, LinkNode* L3) {  // Get the Intersection of two sets (stored in ascending order using a linked list)
 	LinkNode* p1 = L1->next, * p2 = L2->next, * p3 = L3, * s, * q = L2->next;
 
 	while (p1 != NULL) {
@@ -297,24 +297,48 @@ void ListsIntersectedSet(LinkNode* L1, LinkNode* L2, LinkNode* L3) {
 }
 
 
-void ListsDifferentSet(LinkNode* L1, LinkNode* L2, LinkNode* L3) {
+void ListsDifferentSet(LinkNode* L1, LinkNode* L2, LinkNode* L3) {  // Get the difference of two sets (stored in ascending order using a linked list)
+	LinkNode* p1 = L1->next, * p2 = L2->next, * p3 = L3, * s, * q = L2->next;
 
+	while (p1 != NULL) {
+		while (p2 != NULL && p1->data != p2->data) {
+			p2 = p2->next;
+			if (p2 != NULL && p2->data > p1->data) {
+				p2 = NULL;
+			}
+		}
+		if (p2 == NULL) {
+			s = (LinkNode*)malloc(sizeof(LinkNode));
+			if (s != NULL) {
+				s->data = p1->data;
+				p3->next = s;
+				p3 = s;
+			}
+		}
+		else {  // In other words, there must be p1->data==p2->data at this point.
+			q = p2->next;
+		}
+		p2 = q;
+		p1 = p1->next;
+	}
+
+	p3->next = NULL;
 }
 
 
 int main() {
 	LinkNode* L1 = InitList();
-	ElemType a[] = { 1, 2, 3, 4, 5, 8 };
-	int n = 6;
+	ElemType a[] = { 1, 2, 3, 4, 5 };
+	int n = 5;
 	CreateList(L1, a, n);
 
 	LinkNode* L2 = InitList();
-	ElemType b[] = { 1, 3, 4, 7, 8, 9 };
-	n = 6;
+	ElemType b[] = { 3, 4, 5, 6, 7 };
+	n = 5;
 	CreateList(L2, b, n);
 
 	LinkNode* L3 = InitList();
-	ListIntersectedSet(L1, L2, L3);
+	ListsDifferentSet(L1, L2, L3);
 
 	DispList(L3);
 
