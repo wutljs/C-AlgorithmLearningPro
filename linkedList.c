@@ -355,7 +355,7 @@ void ListsDifferentSet(LinkNode* L1, LinkNode* L2, LinkNode* L3) {  // Get the d
 
 int main() {
 	LinkNode* L1 = InitList();
-	ElemType a[] = { 5, 6 };
+	ElemType a[] = { 5, 6, 1, 4, 5, 6, 7, 8, 9, 7 };
 	int n = 2;
 	CreateList(L1, a, n);
 
@@ -366,9 +366,6 @@ int main() {
 
 	DispList(L1);
 	DispList(L2);
-
-	ListDistinct(L1);
-	DispList(L1);
 
 	return 0;
 }
