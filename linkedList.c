@@ -226,6 +226,33 @@ bool ListSort(LinkNode* L) {
 }
 
 
+bool ListDistinct(LinkNode* L) {  // The LinkedList should be sorted by ascending.
+	LinkNode* pre = L->next, * p, * q;
+	if (pre == NULL || pre->next == NULL) {
+		printf("\nThe LinkedList doesn't have enough elements.\n");
+		return false;
+	}
+	p = pre->next;
+	
+	while (p != NULL) {
+		if (p->data != pre->data) {
+			pre = p;
+			p = p->next;
+		}
+		else {
+			q = p;
+			p = p->next;
+			pre->next = p;
+			free(q);
+		}
+	}
+
+	q = NULL;
+
+	return true;
+}
+
+
 void ListsUnionSet(LinkNode* L1, LinkNode* L2, LinkNode* L3) {  // Get the union of two sets (stored in ascending order using a linked list)
 	LinkNode* p1 = L1->next, * p2 = L2->next, * p3 = L3, * s;
 	while (p1 != NULL && p2 != NULL) {
@@ -328,19 +355,20 @@ void ListsDifferentSet(LinkNode* L1, LinkNode* L2, LinkNode* L3) {  // Get the d
 
 int main() {
 	LinkNode* L1 = InitList();
-	ElemType a[] = { 1, 2, 3, 4, 5 };
-	int n = 5;
+	ElemType a[] = { 5, 6 };
+	int n = 2;
 	CreateList(L1, a, n);
 
 	LinkNode* L2 = InitList();
-	ElemType b[] = { 3, 4, 5, 6, 7 };
-	n = 5;
+	ElemType b[] = { 4, 2, 3, 6, 8, 7, 5, 4, 1, 6 };
+	n = 10;
 	CreateList(L2, b, n);
 
-	LinkNode* L3 = InitList();
-	ListsDifferentSet(L1, L2, L3);
+	DispList(L1);
+	DispList(L2);
 
-	DispList(L3);
+	ListDistinct(L1);
+	DispList(L1);
 
 	return 0;
 }
