@@ -3,6 +3,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <stdbool.h>
+#include <time.h>
 
 typedef int ElemType;
 typedef struct LNode {
@@ -233,7 +234,7 @@ bool ListDistinct(LinkNode* L) {  // The LinkedList should be sorted by ascendin
 		return false;
 	}
 	p = pre->next;
-	
+
 	while (p != NULL) {
 		if (p->data != pre->data) {
 			pre = p;
@@ -342,7 +343,7 @@ void ListsDifferentSet(LinkNode* L1, LinkNode* L2, LinkNode* L3) {  // Get the d
 				p3 = s;
 			}
 		}
-		else {  // In other words, there must be p1->data==p2->data at this point.
+		else {  // In other words, there must be p1->data == p2->data at this point.
 			q = p2->next;
 		}
 		p2 = q;
@@ -353,19 +354,87 @@ void ListsDifferentSet(LinkNode* L1, LinkNode* L2, LinkNode* L3) {  // Get the d
 }
 
 
+void ListPolynomialAdd(LinkNode* L1, LinkNode* L2, LinkNode* L3) {
+	/*
+	The terms in a polynomial need to be sorted in ascending order of the degree of x in the terms.
+	If a certain power term of x does not exist in the polynomial,
+	its number of terms needs to be treated as 0 to add this term to this polynomial.
+
+	In the comments below,
+	'P' represents the original polynomial,
+	'M' represents a polynomial arranged in ascending order,
+	'L' represents the single linked list corresponding to the sorted polynomial.
+
+	EX1:
+	P = 3x^2 + 4 + 7x + 5x^8 + x^10  -->  M = 4 + 7x + 3x^2 + 5x^8 + x^10
+
+	EX2:
+	M1 = 1 + 2x + 3x^2 + 7x^3  -->  L1 : 1 2 3 7
+	M2 = x^2 + 3x^4 + 4x^6  -->  L2 : 0 0 1 0 3 0 4
+	*/
+
+	LinkNode* p1 = L1->next, * p2 = L2->next, * p3 = L3, * s;
+
+	while (p1 != NULL && p2 != NULL) {
+		s = (LinkNode*)malloc(sizeof(LinkNode));
+		if (s != NULL) {
+			s->data = p1->data + p2->data;
+			p3->next = s;
+			p3 = s;
+			p1 = p1->next;
+			p2 = p2->next;
+		}
+	}
+
+	LinkNode* p;
+	if (p1 == NULL && p2 == NULL) {
+		p = p1;  // or p = p2
+	}
+	else {
+		if (p1 == NULL)
+			p = p2;
+		else
+			p = p1;
+	}
+
+	while (p != NULL) {
+		s = (LinkNode*)malloc(sizeof(LinkNode));
+		if (s != NULL) {
+			s->data = p->data;
+			p3->next = s;
+			p3 = s;
+			p = p->next;
+		}
+	}
+
+	p3->next = s = NULL;
+}
+
+
+void ListPolynomialMultiply(LinkNode* L1, LinkNode* L2, LinkNode* L3) {
+	// The number of 'x' can be increased by inserting items with data of 0 using the head insertion method.
+
+}
+
+
 int main() {
 	LinkNode* L1 = InitList();
-	ElemType a[] = { 5, 6, 1, 4, 5, 6, 7, 8, 9, 7 };
-	int n = 2;
-	CreateList(L1, a, n);
-
 	LinkNode* L2 = InitList();
-	ElemType b[] = { 4, 2, 3, 6, 8, 7, 5, 4, 1, 6 };
-	n = 10;
-	CreateList(L2, b, n);
 
+	ElemType a[] = { 0, 0, -3, 4, 5, 6 }, b[] = { 0, 0, 1, 2, 3, 7 };
+	int n = 6, m = 6;
+
+	CreateList(L1, a, n);
+	CreateList(L2, b, m);
+	printf("\nCreateList : \n");
 	DispList(L1);
 	DispList(L2);
+	printf("\n");
+
+	LinkNode* L3 = InitList();
+	ListPolynomialAdd(L1, L2, L3);
+	printf("\nListPolynomialAdd : \n");
+	DispList(L3);
 
 	return 0;
 }
