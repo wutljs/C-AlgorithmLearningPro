@@ -5,7 +5,7 @@
 #include <stdbool.h>
 #include <time.h>
 
-typedef int ElemType;
+typedef double ElemType;
 typedef struct LNode {
 	ElemType data;
 	struct LNode* next;
@@ -44,7 +44,7 @@ void DispList(LinkNode* L) {
 	LinkNode* p = L->next;
 	printf("(DispList) ");
 	while (p != NULL) {
-		printf("%d ", p->data);
+		printf("%.2f ", p->data);
 		p = p->next;
 	}
 	printf("\n");
@@ -355,6 +355,22 @@ void ListsDifferentSet(LinkNode* L1, LinkNode* L2, LinkNode* L3) {  // Get the d
 
 
 int main() {
+	LinkNode* L1 = InitList();
+	double a[] = { 1.0, 2.5, 3.2, 6.3, 4.2, 9, 11 };
+	int n = 7;
+	CreateList(L1, a, n);
+	ListSort(L1);
+	DispList(L1);
+
+	LinkNode* L2 = InitList();
+	double b[] = { 2.0, 3.5, 6.3, 9.3, 8, 4.2, 10 };
+	CreateList(L2, b, n);
+	ListSort(L2);
+	DispList(L2);
+
+	LinkNode* L3 = InitList();
+	ListsUnionSet(L1, L2, L3);
+	DispList(L3);
 
 	return 0;
 }
