@@ -36,5 +36,8 @@
     <ClCompile Include="orderedList.c">
       <Filter>源文件</Filter>
     </ClCompile>
+    <ClCompile Include="listSet.c">
+      <Filter>源文件</Filter>
+    </ClCompile>
   </ItemGroup>
 </Project>
