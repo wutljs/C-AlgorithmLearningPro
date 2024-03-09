@@ -91,9 +91,12 @@ bool ListSort(PolynomialLinkNode* L) {
 
 
 // Attention!The PolynomialList involved in the first two nodes of this function's formalparameters should be sorted in descending order of the exponential size ofthe unknown number x.If not, please call the ListSort function to process the PolynomialList before using this function.
-void PolynomialListAdd(PolynomialLinkNode* L1, PolynomialLinkNode* L2, PolynomialLinkNode* L3) {
-	PolynomialLinkNode* p1 = L1->next, * p2 = L2->next, * p3 = L3, * s, * p = NULL;
+PolynomialLinkNode* PolynomialListAdd(PolynomialLinkNode* L1, PolynomialLinkNode* L2) {
+	PolynomialLinkNode* p1 = L1->next, * p2 = L2->next;
+	PolynomialLinkNode* L3 = InitList(), * p3 = L3;
+	PolynomialLinkNode* s, * p = NULL;
 	double n, m;
+
 	while (p1 != NULL && p2 != NULL) {
 		s = (PolynomialLinkNode*)malloc(sizeof(PolynomialLinkNode));
 		if (s != NULL) {
@@ -139,17 +142,49 @@ void PolynomialListAdd(PolynomialLinkNode* L1, PolynomialLinkNode* L2, Polynomia
 	}
 
 	p3->next = s = NULL;
+
+	return L3;
+}
+
+
+// The precautions for using this function are the same as PolynomialListAdd.
+PolynomialLinkNode* PolynomialListMultiply(PolynomialLinkNode* L1, PolynomialLinkNode* L2) {
+	PolynomialLinkNode* p1 = L1->next, * p2 = L2->next;
+	PolynomialLinkNode* L3 = InitList(), * p3 = L3;  // L4 is a PolynomialList which is ready for temporary storage.
+	PolynomialLinkNode* L4 = InitList(), * s;  // 
+
+	while (p1 != NULL) {
+		while (p2 != NULL) {
+			s = (PolynomialLinkNode*)malloc(sizeof(PolynomialLinkNode));
+			if (s != NULL) {
+				s->coefficient = p1->coefficient * p2->coefficient;
+				s->exponential = p1->exponential + p2->exponential;
+				p3->next = s;
+				p3 = s;
+			}
+			p2 = p2->next;
+		}
+		p3->next = NULL;
+
+		L4 = PolynomialListAdd(L3, L4);
+
+		p1 = p1->next;
+		p2 = L2->next;
+		free(L3);
+		L3 = InitList();
+		p3 = L3;
+	}
+
+	return L4;
 }
 
 
 int main() {
 	PolynomialLinkNode* L1 = InitList();  // create a polynomial list
-	ElemType coefficient[] = { 1, 2, 1, 4 };
-	ElemType exponential[] = { 2, 1, 0, 5 };
-	int n = 4;
+	ElemType coefficient[] = { 1, 1 };
+	ElemType exponential[] = { 2, 1 };
+	int n = 2;
 	CreateList(L1, coefficient, exponential, n);
-	printf("CreateList L1");
-	DispList(L1);
 	if (ListSort(L1)) {  // sort the list to do something
 		printf("\nListSort L1");
 		DispList(L1);
@@ -158,24 +193,22 @@ int main() {
 	printf("\n");
 
 	PolynomialLinkNode* L2 = InitList();  // create a polynomial list
-	ElemType coefficient_[] = { -3, 1, 5, 4 };
-	ElemType exponential_[] = { 2, 1, 0, 5 };
+	ElemType coefficient_[] = { 1, 1, -3, 7 };
+	ElemType exponential_[] = { 5, 2, 1, 0 };
 	n = 4;
 	CreateList(L2, coefficient_, exponential_, n);
-	printf("CreateList L2");
-	DispList(L2);
 	if (ListSort(L2)) {  // sort the list to do something
 		printf("\nListSort L2");
 		DispList(L2);
 	}
 
-	PolynomialLinkNode* L3 = InitList();
-	PolynomialListAdd(L1, L2, L3);
-	printf("\nL1 + L2");
+	PolynomialLinkNode* L3 = PolynomialListMultiply(L2, L1);
+	printf("\nL1 * L2");
 	DispList(L3);
 
 	DestroyList(L1);
 	DestroyList(L2);
+	DestroyList(L3);
 
 	return 0;
 }
