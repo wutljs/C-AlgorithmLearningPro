@@ -1,18 +1,23 @@
 #define _CRT_SECURE_NO_WARNINGS 1
+#define MaxSize 50
 
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 #include <stdbool.h>
 
-typedef int ElemType;
-typedef struct LNode {
-	ElemType data;
-	struct LNode* next;
-}LinkNode;
+
+typedef struct ELNode {
+	int no;
+	char name[MaxSize / 5];
+	char depno;
+	double salary;
+	struct ELNode* next;
+}EmployeeLinkNode;
 
 
-LinkNode* InitList() {
-	LinkNode* L = (LinkNode*)malloc(sizeof(LinkNode));
+EmployeeLinkNode* InitList() {
+	EmployeeLinkNode* L = (EmployeeLinkNode*)malloc(sizeof(EmployeeLinkNode));
 	if (L != NULL) {
 		L->next = NULL;
 	}
@@ -20,12 +25,33 @@ LinkNode* InitList() {
 }
 
 
-void CreateList(LinkNode* L, ElemType a[], int n) {  // tail insertion method
-	LinkNode* p = L, * s;
-	for (int i = 0; i < n; i++) {
-		s = (LinkNode*)malloc(sizeof(LinkNode));
+void CreateList(EmployeeLinkNode* L, FILE* fp) {
+	EmployeeLinkNode* p = L, * s;  // tail insertion method
+	char tmp_f[MaxSize], tmp_e[4][MaxSize / 5] = { '\0' }, * ptmp_f;  // If the tmp_e character array is not initialized (each element is initialized to '\0'), the result of calling functions such as "puts()" may be a bunch of garbled code.
+	int i, j;
+
+	while (!feof(fp)) {
+		s = (EmployeeLinkNode*)malloc(sizeof(EmployeeLinkNode));
 		if (s != NULL) {
-			s->data = a[i];
+			fgets(tmp_f, MaxSize, fp);
+			ptmp_f = tmp_f;
+			i = j = 0;
+			while (*ptmp_f != '\n' && *ptmp_f != '\0') {  // The string in the last line of the file does not contain '\n', so it needs to be added with "*ptmp != '\0'".
+				if (*ptmp_f == ',') {
+					i++;
+					j = 0;
+					ptmp_f++;
+				}
+				tmp_e[i][j] = *ptmp_f;
+				ptmp_f++;
+				j++;
+			}
+
+			s->no = atoi(tmp_e[0]);
+			strcpy(s->name, tmp_e[1]);
+			s->depno = tmp_e[2][0];
+			s->salary = atof(tmp_e[3]);
+			
 			p->next = s;
 			p = s;
 		}
@@ -34,93 +60,20 @@ void CreateList(LinkNode* L, ElemType a[], int n) {  // tail insertion method
 }
 
 
-void DestroyList(LinkNode* L) {
-	LinkNode* pre = L, * p = L->next;
+void DispList(EmployeeLinkNode* L) {
+	EmployeeLinkNode* p = L->next;
 	while (p != NULL) {
-		free(pre);
-		pre = p;
+		printf("Employee %d:\nname : %s, depno : %c, salary : %.2f\n", p->no, p->name, p->depno, p->salary);
 		p = p->next;
 	}
-	free(pre);
-}
-
-
-void DispList(LinkNode* L) {
-	LinkNode* p = L->next;
-	printf("(DispList) ");
-	while (p != NULL) {
-		printf("%d ", p->data);
-		p = p->next;
-	}
-	printf("\n");
-}
-
-
-void CombineList(LinkNode* L1, LinkNode* L2, LinkNode* L3) {
-	LinkNode* p1 = L1->next, * p2 = L2->next, * p3 = L3, * s;
-	bool getElemFromL1 = true;
-
-	while (p1 != NULL && p2 != NULL) {
-		s = (LinkNode*)malloc(sizeof(LinkNode));
-		if (s != NULL) {
-			if (getElemFromL1) {
-				s->data = p1->data;
-				p3->next = s;
-				p3 = s;
-
-				p1 = p1->next;
-				getElemFromL1 = false;
-			}
-			else {
-				s->data = p2->data;
-				p3->next = s;
-				p3 = s;
-
-				p2 = p2->next;
-				getElemFromL1 = true;
-			}
-		}
-	}
-
-	LinkNode* p;
-	if (p1 == NULL) {
-		p = p2;
-	}
-	else
-		p = p1;
-
-	while (p != NULL) {
-		s = (LinkNode*)malloc(sizeof(LinkNode));
-		if (s != NULL) {
-			s->data = p->data;
-			p3->next = s;
-			p3 = s;
-
-			p = p->next;
-		}
-	}
-
-	p3->next = NULL;
 }
 
 
 int main() {
-
-	LinkNode* L1 = InitList();
-	ElemType a[] = { 1, 2, 3 };
-	int n = 3;
-	CreateList(L1, a, n);
-	DispList(L1);
-
-	LinkNode* L2 = InitList();
-	ElemType b[] = { 2, 3, 5 };
-	n = 3;
-	CreateList(L2, b, n);
-	DispList(L2);
-
-	LinkNode* L3 = InitList();
-	CombineList(L1, L2, L3);
-	DispList(L3);
+	EmployeeLinkNode* L = InitList();
+	FILE* fp = fopen("C:/Users/34803/Desktop/a.dat", "r");
+	CreateList(L, fp);
+	DispList(L);
 
 	return 0;
 }
