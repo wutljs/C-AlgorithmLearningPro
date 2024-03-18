@@ -54,6 +54,15 @@ void CreateList(EmployeeLinkNode* L, FILE* fp) {
 			
 			p->next = s;
 			p = s;
+
+			int m, n;
+			for (m = 0; m < 4; m++) {
+				n = 0;
+				while (tmp_e[m][n] != '\0') {
+					tmp_e[m][n] = '\0';
+					n++;
+				}
+			}
 		}
 	}
 	p->next = NULL;
@@ -69,9 +78,20 @@ void DispList(EmployeeLinkNode* L) {
 }
 
 
+void DestroyList(EmployeeLinkNode* L) {
+	EmployeeLinkNode* pre = L, * p = L->next;
+	while (p != NULL) {
+		free(pre);
+		pre = p;
+		p = p->next;
+	}
+	free(pre);
+}
+
+
 int main() {
 	EmployeeLinkNode* L = InitList();
-	FILE* fp = fopen("C:/Users/34803/Desktop/a.dat", "r");
+	FILE* fp = fopen("C:/Users/34803/Desktop/tmp_work/employeeInformation.dat", "r");
 	CreateList(L, fp);
 	DispList(L);
 
