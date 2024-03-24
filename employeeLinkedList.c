@@ -155,16 +155,6 @@ void SaveList(EmployeeLinkNode* L, FILE* fp) {
 
 
 int main() {
-	EmployeeLinkNode* L = InitList();
-	FILE* fp = fopen("C:/Users/34803/Desktop/write.txt", "r");
-	CreateList(L, fp);
-	DispList(L);
-	fclose(fp);
-
-	fp = fopen("C:/Users/34803/Desktop/write.txt", "w");
-	SaveList(L, fp);
-
-	DestroyList(L);
 
 	return 0;
 }

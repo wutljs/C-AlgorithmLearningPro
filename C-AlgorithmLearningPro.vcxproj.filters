@@ -42,5 +42,8 @@
     <ClCompile Include="listPolynomial.c">
       <Filter>源文件</Filter>
     </ClCompile>
+    <ClCompile Include="employeeLinkedList.c">
+      <Filter>源文件</Filter>
+    </ClCompile>
   </ItemGroup>
 </Project>
